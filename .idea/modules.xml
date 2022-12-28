@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Selenium_EXT.iml" filepath="$PROJECT_DIR$/.idea/Selenium_EXT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SuperR.iml" filepath="$PROJECT_DIR$/.idea/SuperR.iml" />
     </modules>
   </component>
 </project>

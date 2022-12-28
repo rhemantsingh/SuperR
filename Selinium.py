@@ -26,7 +26,7 @@ search.send_keys(Keys.ENTER)
 
 
 
-sleep(2)
+sleep(1.5)
 shoes_data = driver.find_elements(By.XPATH, "//*[@data-component-type='s-search-result']")
 print(len(shoes_data))
 
