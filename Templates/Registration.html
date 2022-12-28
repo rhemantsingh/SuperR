@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+Register yourself here!!!
+
+<form method="post" action="{{ url_for('Register') }}">
+    Name : <input type="text" name="name"/></br>
+    Email : <input type="email" name="email"/></br>
+    Password : <input type="password" name="pass"/></br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
