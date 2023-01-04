@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% set active_page = 'home' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-11">
+      <div class="row my-5 card-wrapper">
+        {% if items %}
+        {% for item in items %}
+          <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="embed-responsive embed-responsive-4by3">
+
+                   <a href="{{ url_for('item', item_id=item.id) }}">
+                    <img class="card-img-top embed-responsive-item" src= {{ item.image }}>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">
+
+                  </h4>
+                  <h5>{{ "Rs %.2f"|format(item.price) }}</h5>
+                  <s><p class="card-text">{{ "Rs %.2f"|format(item.mrp) }}</p></s>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">
+                    {{ item.category }} -> {{ item.subcategory }}
+                  </small>
+                </div>
+              </div>
+          </div>
+        {% endfor %}
+        {% else %}
+        <h1 class="offset-lg-3">No items to show.</h1>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

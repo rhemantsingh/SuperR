@@ -1,10 +1,11 @@
-from flask import Flask,render_template,url_for, request, flash,redirect,session
+from flask import Flask, render_template, url_for, request, flash, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY']="HEMANTisTHEbest"
-app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///C:\Users\hemant.singh.rawat\PycharmProjects\Selenium_EXT\DB\test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///C:\Users\heman\PycharmProjects\SuperR\DB\test.db'
 db = SQLAlchemy(app)
+
 
 class Logins(db.Model):
 
@@ -16,15 +17,44 @@ class Logins(db.Model):
     def __repr__(self):
         return f"Username = {self.username}"
 
-class Laptop(db.Model):
+
+class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+    link = db.Column(db.String(100), nullable=False,unique=True)
+    image = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Integer(), nullable=False)
+    mrp = db.Column(db.Integer())
+    color = db.Column(db.String(20))
+    specification = db.Column(db.String(200))
+    category = db.Column(db.String(20))
+    subCategory = db.Column(db.String(20))
+
+    def __repr__(self):
+        return f"{self.name}{self.price}{self.link}{self.color}"
 
 #db.init_app(app)
 
+
 @app.route("/")
-def Home():
-    return render_template("Welcome.html")
+def home():
+    products = Product.query.all()
+    items = []
+    for i in products:
+        item={
+            "id": i.id,
+            "name": i.name,
+            "price": i.price,
+            "specification": i.specification,
+            "category": i.category,
+            "subcategory": i.subCategory,
+            "image": i.image,
+            "mrp": i.mrp
+        }
+        items.append(item)
+    return render_template("home.html",items=items)
+
+
 
 @app.route("/register", methods=["GET","POST"])
 def Register():
@@ -37,23 +67,38 @@ def Register():
             print(find)
         except:
             find=None
-        if find != None:
+        if find is not None:
             print("Already Registered")
-            flash("You are already Registered")
-            return redirect(url_for("Home"))
+            flash("You are already Registered", "warning")
+            return redirect(url_for("home"))
         else:
             print("New")
             user = Logins(name=name, username=username, password=password)
             db.session.add(user)
             db.session.commit()
-            flash("You are successfully Registered")
-            return redirect(url_for("Home"))
-
+            flash("You are successfully Registered", "success")
+            return redirect(url_for("home"))
     else:
         return render_template("Registration.html")
 
 
-@app.route("/login", methods=["GET","POST"])
+@app.route("/A")
+def A():
+    if not session.get("user"):
+        return redirect(url_for("Login"))
+    else:
+        return render_template("A.html")
+
+
+@app.route("/B")
+def B():
+    if not session.get("user"):
+        return redirect(url_for("Login"))
+    else:
+        return render_template("B.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
 def Login():
     if request.method == "GET":
         return render_template("Login.html")
@@ -65,35 +110,49 @@ def Login():
         except:
             find = None
 
-        if find!=None:
+        if find is not None:
             session["user"] = username
-            return redirect(url_for("A"))
+            return redirect(url_for("home"))
         else:
-            flash("Entered data is incorrect")
+            flash("Entered data is incorrect", "danger")
             return redirect(url_for("Login"))
 
-@app.route("/A")
-def A():
-    if not session.get("user"):
-        return redirect(url_for("Login"))
-    else:
-        return render_template("A.html")
-
-@app.route("/B")
-def B():
-    if not session.get("user"):
-        return redirect(url_for("Login"))
-    else:
-        return render_template("B.html")
 
 @app.route("/logout")
 def Logout():
-    session['user']=None
-    flash("You are successfully Logged Out")
-    return redirect(url_for("Home"))
+    if session["user"]:
+        session['user']=None
+        flash("You are successfully Logged Out", "success")
+        return redirect(url_for("home"))
+    else:
+        flash("You are not logged in", "warning")
+    return redirect(url_for("Login"))
 
 
-@app.route("/name")
-def Name():
-    S = Logins.query.all()
-    return f"the Database data {S}"
+@app.route("/item/<int:item_id>")
+def item(item_id):
+    if session["user"]:
+        item = Product.query.filter_by(id=item_id).first()
+        products = Product.query.all()
+        recomend = []
+        count = 0
+        for i in products:
+            if count > 5:
+                break;
+            its = {
+                "id": i.id,
+                "name": i.name,
+                "price": i.price,
+                "specification": i.specification,
+                "category": i.category,
+                "subcategory": i.subCategory,
+                "image": i.image,
+                "mrp": i.mrp,
+                "color": i.color
+            }
+            recomend.append(its)
+            count = count+1
+        return render_template("item.html",item=item,its=recomend)
+    else:
+        return redirect(url_for("Login"))
+

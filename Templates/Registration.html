@@ -1,26 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-Register yourself here!!!
+{% extends 'base.html' %}
 
-<form method="post" action="{{ url_for('Register') }}">
-    Name : <input type="text" name="name"/></br>
-    Email : <input type="email" name="email"/></br>
-    Password : <input type="password" name="pass"/></br>
-    <button type="submit">Submit</button>
-</form>
-</body>
-</html>
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+
+
+<div align="center">
+          <div align="center" class="border">
+             <div class="header">
+                <h1 class="word">Register</h1>
+             </div></br></br></br>
+            <h2 class="word">
+                <form action="{{ url_for('Register') }}" method="post">
+                    <input id="username" name="name" type="text" placeholder="Enter Your Username" class="textbox"/></br></br>
+                    <input id="email" name="email" type="text" placeholder="Enter Your Email ID" class="textbox"/></br></br>
+                    <input id="password" name="pass" type="password" placeholder="Enter Your Password" class="textbox"/></br></br>
+
+                    <input type="submit" class="btn" value="Sign Up"></br>
+                </form>
+            </h2>
+            <p class="bottom">Already have an account?  <a class="bottom" href="{{url_for('Login')}}"> Sign In here</a></p>
+          </div>
+        </div>
+{% endblock %}

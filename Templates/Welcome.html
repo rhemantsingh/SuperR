@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>Shoes</title>
-</head>
-<body>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+{% extends 'base.html' %}
+{% set active_page = 'home' %}
+
+{% block content %}
+
+
 <h1>Hi and Welcome To ShoesDB</h1>
 
 <a href="{{ url_for('Register') }}">Register</a>
 </br></br>
 
 <a href="{{ url_for('Login') }}">Login</a>
-
-</body>
-</html>
+{% endblock %}

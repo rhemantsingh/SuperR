@@ -1,0 +1,87 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{{ item.id }} - {% endblock %}
+
+{% block content %}
+<div >
+<!--  <div class="col-lg-3 my-4">-->
+<!--&lt;!&ndash;    Edit ITem&ndash;&gt;-->
+<!--  </div>-->
+  <div class="col-lg-7">
+    <div class="card mt-3">
+      <div class="embed-responsive embed-responsive-4by3">
+        <a href="{{ item.link }}" target="_blank">
+        <img class="card-img-top embed-responsive-item" src={{ item.image }}>
+        </a>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">{{ item.name }}</h3>
+        <h4>{{ "Rs %.2f" | format(item.price) }}</h4>
+        <h7><s>{{ "Rs %.2f" | format(item.mrp) }}</s></h7>
+        <h4>Color : {{ item.color }}</h4>
+        <p class="card-text">{{ item.specification }}</p>
+        <h4>
+          <div class="badge badge-secondary">{{ item.category }}</div> <br>
+          <div class="badge badge-secondary">{{ item.subCategory }}</div>
+        </h4>
+      </div>
+    </div>
+
+<!--    <div class="card card-outline-secondary my-4">-->
+<!--      <div class="card-header">-->
+<!--        Product Reviews-->
+<!--      </div>-->
+<!--      <div class="card-body">-->
+<!--        <p>Some comment</p>-->
+<!--        <small class="text-muted">Posted by Anonymous</small>-->
+<!--        <hr>-->
+<!--        <p>Some comment</p>-->
+<!--        <small class="text-muted">Posted by Anonymous</small>-->
+<!--        <hr>-->
+<!--      </div>-->
+<!--    </div>-->
+    </div>
+  </br>
+        <div class="card-header">
+          Recomendations
+        </div>
+    <div class="row">
+    <div class="col-lg-11">
+      <div class="row my-5 card-wrapper">
+        {% if its %}
+        {% for it in its %}
+          <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="embed-responsive embed-responsive-4by3">
+
+                   <a href="{{ url_for('item', item_id=it.id) }}">
+                    <img class="card-img-top embed-responsive-item" src= {{ it.image }}>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">
+
+                  </h4>
+                  <h5>{{ "Rs %.2f"|format(it.price) }}</h5>
+                  <s><p class="card-text">{{ "Rs %.2f"|format(it.mrp) }}</p></s>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">
+                    {{ it.category }} -> {{ it.subcategory }}
+                  </small>
+                </div>
+              </div>
+          </div>
+        {% endfor %}
+        {% else %}
+        <h1 class="offset-lg-3">No items to show.</h1>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+  </div>
+
+{% endblock %}

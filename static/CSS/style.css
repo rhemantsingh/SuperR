@@ -1,0 +1,19 @@
+body{
+  padding-top: 56px;
+}
+.navbar-brand{
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+}
+
+.card-brand{
+  object-fit: cover;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.delete-form{
+    display:inline;
+}
