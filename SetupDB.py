@@ -2,6 +2,21 @@ from ShoesDB import app, db,Logins,Product
 import pickle
 
 
+def clear_Color(color):
+    if color[0].isnumeric():
+        color = color[1:]
+    return color
+
+def clear_Price(rs):
+    rs = rs.strip()
+    rs = rs.replace(',', '')
+    if not rs[0].isnumeric():
+        try:
+            rs = float(rs[1:])
+        except:
+            rs = rs[1:]
+    return rs
+
 with app.app_context():
     # db.drop_all()
     # db.create_all()
@@ -9,41 +24,41 @@ with app.app_context():
     # with open('ShoesData','rb') as f:
     #     data = pickle.load(f)
     #
-    # for i in range(4):
+    # for i in range(len(data['Name'])):
     #     if data['Name'][i] !="None" and data['Link'][i] != "None" and data["Image"][i] != "None" and data["Price"][i] != "None":
-    #         aprice=0
-    #         if data["Price"][i] is not None:
-    #             bPrice = data["Price"][i].strip()
-    #
-    #             if not bPrice[0].isnumeric():
-    #                 aPrice = bPrice[1:]
-    #             else:
-    #                 aPrice = bPrice
-    #             aPrice = int(aPrice.replace(',',''))
-    #         mprice = 0
-    #         if data["MRP"][i] is not None or data["MRP"][i] != "None":
-    #             rPrice = data["MRP"][i].strip()
-    #
-    #             if not rPrice[0].isnumeric():
-    #                 mPrice = rPrice[1:]
-    #             else:
-    #                 mPrice = rPrice
-    #             print(mPrice)
-    #             mPrice = int(float(mPrice.replace(',', '')))
-    #         sp=''
+    #         colour = clear_Color(data["Color"][i])
+    #         aPrice = data["Price"][i]
+    #         if aPrice != "None" and aPrice != None:
+    #             aPrice = clear_Price(aPrice)
+    #         else:
+    #             aPrice= "None"
+    #         mPrice = data["MRP"][i]
+    #         if mPrice != "None" and mPrice != None:
+    #             mPrice = clear_Price(mPrice)
+    #         else:
+    #             mPrice = "None"
+    #         sp = ''
     #         for s in data["Specification"][i]:
-    #             sp = sp + s
+    #             sp = sp + "%%" + s
     #         try:
     #             prod1 = Product(name=data['Name'][i], link=data['Link'][i], image=data['Image'][i],
-    #                         price=aPrice, mrp=mPrice, color=data['Color'][i], specification=sp, category=data['Category'][i], subCategory=data['Subcategory'][i])
+    #                         price=aPrice, mrp=mPrice, color=colour, specification=sp,
+    #                             category=data['Category'][i], subCategory=data['Subcategory'][i])
     #             db.session.add(prod1)
     #             db.session.commit()
     #         except:
-    #
-    #             print("Error to hai")
+    #             print('error to hai')
+    #             print(data['Link'][i])
+    #     print(i)
+    products = Product.query.all()
+    print(len(products))
+    _list = []
+    double = []
+    for pro in products:
+        if pro.link not in _list:
+            _list.append(pro.link)
+        else:
+            double.append(pro.link)
+    print(len(_list))
+    print(len(double))
 
-    # l = db.session.execute(db.select(Product))
-    l1 = Product.query.all()
-
-    for log in l1:
-        print(log)

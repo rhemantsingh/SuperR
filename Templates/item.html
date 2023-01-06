@@ -16,9 +16,14 @@
         </a>
       </div>
       <div class="card-body">
+        <a href="{{ item.link }}" target="_blank">
         <h3 class="card-title">{{ item.name }}</h3>
+        </a>
         <h4>{{ "Rs %.2f" | format(item.price) }}</h4>
+        {% if item.price != "None" %}
         <h7><s>{{ "Rs %.2f" | format(item.mrp) }}</s></h7>
+        {% endif %}
+
         <h4>Color : {{ item.color }}</h4>
         <p class="card-text">{{ item.specification }}</p>
         <h4>
@@ -64,7 +69,10 @@
 
                   </h4>
                   <h5>{{ "Rs %.2f"|format(it.price) }}</h5>
+                  {% if it.mrp %}
                   <s><p class="card-text">{{ "Rs %.2f"|format(it.mrp) }}</p></s>
+                  {% endif %}
+<!--                  <s><p class="card-text">{{ "Rs %.2f"|format(it.mrp) }}</p></s>-->
                 </div>
                 <div class="card-footer">
                   <small class="text-muted">

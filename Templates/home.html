@@ -20,7 +20,9 @@
 
                   </h4>
                   <h5>{{ "Rs %.2f"|format(item.price) }}</h5>
+                  {% if item.mrp  %}
                   <s><p class="card-text">{{ "Rs %.2f"|format(item.mrp) }}</p></s>
+                  {% endif %}
                 </div>
                 <div class="card-footer">
                   <small class="text-muted">

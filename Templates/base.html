@@ -29,7 +29,7 @@
           </li>
           {% if session["user"] %}
           <li class="nav-item {{ 'active' if active_page == 'home' else '' }}">
-            <a href="{{ url_for('Logout') }}" class="nav-link">Logout</a>
+            <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
           </li>
           {% endif %}
         </ul>
